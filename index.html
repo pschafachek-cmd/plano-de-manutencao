@@ -22,6 +22,8 @@
     .corner-logo{top:64px;left:auto;right:max(40px,calc((100% - 1180px)/2));transform:none}
     @media(max-width:760px){.corner-logo{top:58px;left:auto;right:8px;transform:none}}
     .search-field{grid-column:1/-1}.search-field input{width:100%;padding:13px 14px;border:1px solid #3a2f22;border-radius:8px;background:#231c15;color:#f7f7f7;font:15px Inter,system-ui,sans-serif;outline:none}.search-field input:focus{border-color:var(--escava-orange);box-shadow:0 0 0 2px rgba(255,92,0,.18)}.search-field input::placeholder{color:#8f8171}body.light .search-field input{background:#fff;border-color:#bbb;color:#222}body.light .search-field input::placeholder{color:#777}
+    /* Layout do painel de consulta inspirado no arquivo de referência */
+    main{width:min(1180px,calc(100% - 40px));margin:0 auto 80px}.app-layout{display:block;width:100%;margin:-56px auto 0}.content{width:100%}.filters{grid-template-columns:1.3fr 1fr 1fr;gap:14px}.search-field{grid-column:1/-1}.side-nav{position:static;display:flex;align-items:center;gap:8px;overflow:auto;margin:22px 0 8px;padding:0;border:0;background:transparent}.side-nav h2{display:none}.category-button{flex:0 0 auto;width:auto;padding:8px 14px;border-color:#3a2f22;border-radius:999px;background:#1c1712;font-family:'JetBrains Mono',monospace;font-size:.78rem}.category-button .category-icon{width:23px;height:23px;border-radius:5px}.category-button small{display:none}.category-button:hover,.category-button.active{background:var(--escava-orange);border-color:var(--escava-orange);color:#1a0f08}.category-button.active .category-icon,.category-button:hover .category-icon{background:#2a1b0b;color:#fff}.info{margin-top:24px}@media(max-width:760px){main{width:min(100% - 24px,1180px)}.app-layout{margin-top:-44px}.filters{grid-template-columns:1fr}.side-nav{margin-top:16px}.category-button{padding:8px 12px}}
   </style>
 </head>
 <body>
@@ -159,6 +161,7 @@
     const renderWithSearch=render;
     render=()=>{renderWithSearch();const term=quickSearch.value.trim().toLowerCase();if(!term)return;let models=0,items=0;out.querySelectorAll('.card').forEach(card=>{const head=(card.querySelector('h3')?.textContent||'')+' '+(card.querySelector('small')?.textContent||'');const modelMatch=head.toLowerCase().includes(term);const rows=[...card.querySelectorAll('tbody tr')];let found=0;rows.forEach(row=>{const hit=modelMatch||row.textContent.toLowerCase().includes(term);row.hidden=!hit;if(hit)found++});const visible=rows.length?found>0:modelMatch;card.hidden=!visible;if(visible){models++;items+=rows.length?found:1}});status.textContent=models?`${items} item${items===1?'':'ns'} em ${models} modelo${models===1?'':'s'} encontrado${models===1?'':'s'}.`:'Nenhum código ou modelo encontrado.'};
     quickSearch.addEventListener('input',render);
+    document.querySelector('.filters').after(document.querySelector('.side-nav'));
   </script>
 </body>
 </html>
